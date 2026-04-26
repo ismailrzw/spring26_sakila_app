@@ -3,7 +3,7 @@ import os
 # Muhammad Ismail Rana
 # 26-04-2026
 
-# Sakila Application Configuration
+# Configuration for Sakila
 # This file handles the database connection settings.
 # Combined Configuration
 
