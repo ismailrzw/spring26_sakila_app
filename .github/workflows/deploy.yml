@@ -2,37 +2,34 @@ name: CD Deployment Pipeline
 
 on:
   workflow_run:
-    workflows: ["CI Pipeline"]
+    workflows: ["CI Pipeline"] # Matches your CI name in image_e6a9f1.png
     types: [completed]
 
 jobs:
   deploy-staging:
+    # Logic: Only execute if the CI actually passed
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment: staging
     steps:
       - uses: actions/checkout@v4
-      - name: Simulate Staging
-        run: echo "Deploying to STAGING successful"
+      - name: Staging Step
+        run: echo "Deploying to Staging..."
       - name: Generate Job Summary
         run: |
           echo "## 🚀 Staging Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "✅ **Status:** Success" >> $GITHUB_STEP_SUMMARY
-      - name: Notify
-        run: echo "Slack notification: Deployment to staging successful"
 
   deploy-production:
     needs: deploy-staging
     runs-on: ubuntu-latest
-    environment: production
+    environment: production # Triggers your manual approval
     steps:
       - uses: actions/checkout@v4
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ github.run_number }}
-          name: Release v${{ github.run_number }}
+          tag_name: v1.0.${{ github.run_number }}
+          name: Release v1.0.${{ github.run_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Notify
-        run: echo "Slack notification: Deployment to production successful"
