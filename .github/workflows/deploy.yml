@@ -4,22 +4,16 @@ on:
   workflow_run:
     workflows: ["CI Pipeline"]
     types: [completed]
-    branches: [main]
-  push:
-    branches: [main]
-    paths:
-      - 'app.py'
 
 jobs:
   deploy-staging:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment: staging
     steps:
       - uses: actions/checkout@v4
       - name: Simulate Staging
-        run: |
-          echo "Deploying to STAGING..."
-          echo "Status: Success"
+        run: echo "Deploying to STAGING successful"
       - name: Generate Job Summary
         run: |
           echo "## 🚀 Staging Deployment Summary" >> $GITHUB_STEP_SUMMARY
@@ -33,15 +27,12 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v4
-      - name: Create Version Tag
-        id: tagger
-        run: echo "VERSION=v$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
-      - name: Create GitHub Release
+      - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.tagger.outputs.VERSION }}
-          name: Release ${{ steps.tagger.outputs.VERSION }}
+          tag_name: v${{ github.run_number }}
+          name: Release v${{ github.run_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Notify
-        run: echo "Slack notification: Deployment to production successful" 
+        run: echo "Slack notification: Deployment to production successful"
