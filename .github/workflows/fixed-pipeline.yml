@@ -2,11 +2,11 @@ name: Fixed CI Pipeline
 
 on:
   push:
-    branches: [main]
+    branches: [main] # Fixed Error 1 & 4 (Indentation and list format)
 
-jobs:
+jobs: # Fixed Error 3 (Job Indentation)
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Fixed Error 2 (Invalid runner label)
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
@@ -21,7 +21,7 @@ jobs:
         run: pytest tests/ -v
 
   build:
-    needs: test # Added to ensure build only happens if tests pass
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,7 +30,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [test, build] # Corrected dependency
+    needs: [test, build] # Fixed Error 5 (Missing dependency on build)
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Deploy
