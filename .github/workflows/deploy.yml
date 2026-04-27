@@ -2,68 +2,44 @@ name: CD Deployment Pipeline
 
 on:
   workflow_run:
-    workflows: ["CI Pipeline"]
+    workflows: ["CI Pipeline"] # Must match the 'name' in your ci-pipeline.yml
     types: [completed]
     branches: [main]
-  push:
-    branches: [main]
-    paths:
-      - 'app.py'
-      - 'config.py'
-      - 'templates/**'
-      - 'static/**'
-      - 'Dockerfile'
-      - 'requirements.txt'
-      - 'docker-compose.yml'
 
 jobs:
   deploy-staging:
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' }}
+    # This ensures it ONLY runs if the CI Pipeline was successful
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment: staging
     steps:
       - uses: actions/checkout@v4
-
-      - name: Simulate Staging Deployment
+      - name: Simulate Staging
         run: |
           echo "Deploying to STAGING..."
-          echo "DB_HOST=${{ vars.DB_HOST_STAGING }}"
-          echo "Running Docker Image: sakila-app:staging"
-
+          echo "Status: Success"
       - name: Generate Job Summary
         run: |
           echo "## 🚀 Staging Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "✅ **Status:** Success" >> $GITHUB_STEP_SUMMARY
-          echo "🌐 **Environment:** Staging" >> $GITHUB_STEP_SUMMARY
-          echo "📅 **Date:** $(date)" >> $GITHUB_STEP_SUMMARY
-
-      - name: Notify Staging
+      - name: Notify
         run: echo "Slack notification: Deployment to staging successful"
 
   deploy-production:
     needs: deploy-staging
     runs-on: ubuntu-latest
-    environment: production
+    environment: production # This triggers the manual approval gate
     steps:
       - uses: actions/checkout@v4
-
-      - name: Simulate Production Deployment
-        run: |
-          echo "Deploying to PRODUCTION..."
-          echo "Status: Performing zero-downtime deployment."
-
       - name: Create Version Tag
         id: tagger
-        run: echo "VERSION=v$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
-
+        run: echo "VERSION=v$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.tagger.outputs.VERSION }}
           name: Release ${{ steps.tagger.outputs.VERSION }}
-          body: "Automated production release."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Notify Production
+      - name: Notify
         run: echo "Slack notification: Deployment to production successful"

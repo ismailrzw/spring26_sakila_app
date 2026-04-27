@@ -1,0 +1,75 @@
+*   [33m13d317c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdevelop[m[33m)[m fix(merge): resolve conflict between host updates and healthcheck. Kept sakila-db-server host and included both variables.
+[31m|[m[32m\[m  
+[31m|[m * [33m216dc8c[m[33m ([m[1;32mfeature/add-healthcheck[m[33m)[m feat(config): add health check interval
+* [32m|[m [33m8529279[m[33m ([m[1;32mfeature/update-config[m[33m)[m feat(config): update database host and add timeout setting
+[32m|[m[32m/[m  
+*   [33md575f91[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mhotfix/bugfix[m[33m, [m[1;32mfeature/docker-optimization[m[33m, [m[1;32mfeature/ci-pipeline[m[33m)[m Merge pull request #5 from Raffay-Qasim/develop
+[33m|[m[34m\[m  
+[33m|[m *   [33m0c731c6[m Merge branch 'main' into develop
+[33m|[m [35m|[m[33m\[m  
+[33m|[m [35m|[m[33m/[m  
+[33m|[m[33m/[m[35m|[m   
+* [35m|[m   [33mc773b0d[m Merge pull request #4 from f2023-743-hub/develop
+[1;31m|[m[1;32m\[m [35m\[m  
+[1;31m|[m * [35m\[m   [33m53da296[m Merge branch 'main' into develop
+[1;31m|[m [1;33m|[m[1;31m\[m [35m\[m  
+[1;31m|[m [1;33m|[m[1;31m/[m [35m/[m  
+[1;31m|[m[1;31m/[m[1;33m|[m [35m|[m   
+* [1;33m|[m [35m|[m   [33m09b3821[m Merge pull request #1 from humzamajeed/develop
+[1;35m|[m[1;36m\[m [1;33m\[m [35m\[m  
+[1;35m|[m * [1;33m|[m [35m|[m [33m1b4ab70[m fix(config): reduce default CONNECTION_TIMEOUT to 10s per review feedback
+[1;35m|[m * [1;33m|[m [35m|[m   [33m3cc14a3[m merge: resolve conflict between feature/update-config and feature/add-healthcheck
+[1;35m|[m [31m|[m[32m\[m [1;33m\[m [35m\[m  
+[1;35m|[m [31m|[m * [1;33m|[m [35m|[m [33mc9a37ac[m feat(config): update database host and add health check interval
+[1;35m|[m [31m|[m[1;35m/[m [1;33m/[m [35m/[m  
+[1;35m|[m[1;35m/[m[31m|[m [1;33m|[m [35m|[m   
+[1;35m|[m * [1;33m|[m [35m|[m [33m7dda211[m added my name which i forgot earlier
+[1;35m|[m * [1;33m|[m [35m|[m [33mc0e7a64[m feat(config): update database host and add timeout setting
+[1;35m|[m[1;35m/[m [1;33m/[m [35m/[m  
+[1;35m|[m * [35m|[m [33m8c28b00[m fix(config): add input validation for timeout environment variables
+[1;35m|[m * [35m|[m   [33m1a8dc55[m fix(merge): resolve conflict between feature/update-config and feature/add-healthcheck
+[1;35m|[m [33m|[m[34m\[m [35m\[m  
+[1;35m|[m [33m|[m * [35m|[m [33m831daf7[m feat(config): add health check interval and update host to db-primary
+[1;35m|[m [33m|[m[1;35m/[m [35m/[m  
+[1;35m|[m[1;35m/[m[33m|[m [35m|[m   
+[1;35m|[m * [35m|[m [33m17b35a5[m feat(config):update database host and add timeout setting
+[1;35m|[m[1;35m/[m [35m/[m  
+[1;35m|[m * [33m513d6bd[m fix: address review feedback
+[1;35m|[m * [33md9dc7eb[m chore: minor improvement after review
+[1;35m|[m * [33m9d53eff[m docs: add class docstring to address review feedback
+[1;35m|[m *   [33m7377069[m fix(config): resolve merge conflict and combine timeout/healthcheck settings
+[1;35m|[m [35m|[m[36m\[m  
+[1;35m|[m [35m|[m * [33m3492408[m feat(config): add health check interval and update db host
+[1;35m|[m [35m|[m[1;35m/[m  
+[1;35m|[m[1;35m/[m[35m|[m   
+[1;35m|[m * [33m13d2bfa[m feat(config): update database host and add timeout setting
+[1;35m|[m[1;35m/[m  
+*   [33m1968509[m Merge branch 'main' of https://github.com/20030054/spring26_sakila_app
+[1;31m|[m[1;32m\[m  
+[1;31m|[m * [33mf1fe2ea[m Enhance CI/CD pipeline with Docker support
+* [1;32m|[m [33mb418172[m Added bullets till 5
+[1;32m|[m[1;32m/[m  
+*   [33m048f52b[m Merge branch 'main' of https://github.com/20030054/spring26_sakila_app
+[1;33m|[m[1;34m\[m  
+[1;33m|[m * [33m6835053[m Refactor GitHub Actions workflow for Python project
+[1;33m|[m * [33m3ce8531[m Update main.yml
+[1;33m|[m * [33m2963a6b[m Update CI pipeline to include compilation and testing
+* [1;34m|[m [33ma7df40c[m Updated the instruction file
+[1;34m|[m[1;34m/[m  
+* [33m9fde00a[m Test Scripts included
+* [33m17d162f[m Edit instructions file
+* [33me64149b[m Delete .github/workflows/.flake8
+* [33mb100592[m Delete .github/workflows/lint.yml
+*   [33m3d34a28[m Merge branch 'main' of https://github.com/20030054/spring26_sakila_app
+[1;35m|[m[1;36m\[m  
+[1;35m|[m * [33m5877e4d[m Added Flask
+[1;35m|[m * [33mf736638[m Update Flake8 command with new options
+[1;35m|[m * [33m207fbdb[m Create linting workflow for Python files
+[1;35m|[m * [33mbd37f02[m Add CI pipeline configuration in main.yml
+[1;35m|[m * [33m26c404f[m Delete .github/workflows/pylint.yml
+[1;35m|[m * [33m8d38216[m Add Pylint workflow for Python code analysis
+* [1;36m|[m [33mcc66a5f[m Instructions file added
+[1;36m|[m[1;36m/[m  
+* [33m80221a7[m Remove .claude/ and CLAUDE.md from remote tracking
+* [33m5cac8c5[m Diagrams: Workflow and Architecture
+* [33m1859eb7[m SakilaApp2: Initial Commit
