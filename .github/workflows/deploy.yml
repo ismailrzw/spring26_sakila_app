@@ -3,7 +3,7 @@ name: CD Deployment Pipeline
 on:
   # Requirement 53: Trigger after CI success OR on direct push to main with filters
   workflow_run:
-    workflows: ["Sakila CI Pipeline"] # Make sure this matches the 'name' in your CI file
+    workflows: ["CI Pipeline"] # Make sure this matches the 'name' in your CI file
     types: [completed]
     branches: [main]
   push:
