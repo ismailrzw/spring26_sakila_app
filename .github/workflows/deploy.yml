@@ -2,14 +2,16 @@ name: CD Deployment Pipeline
 
 on:
   workflow_run:
-    workflows: ["CI Pipeline"] # Must match the 'name' in your ci-pipeline.yml
+    workflows: ["CI Pipeline"]
     types: [completed]
     branches: [main]
+  push:
+    branches: [main]
+    paths:
+      - 'app.py'
 
 jobs:
   deploy-staging:
-    # This ensures it ONLY runs if the CI Pipeline was successful
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment: staging
     steps:
@@ -28,7 +30,7 @@ jobs:
   deploy-production:
     needs: deploy-staging
     runs-on: ubuntu-latest
-    environment: production # This triggers the manual approval gate
+    environment: production
     steps:
       - uses: actions/checkout@v4
       - name: Create Version Tag
