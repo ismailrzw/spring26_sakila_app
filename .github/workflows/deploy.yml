@@ -1,75 +1,67 @@
 name: CD Deployment Pipeline
 
 on:
-  # Requirement 53: Trigger after CI success OR on direct push to main with filters
   workflow_run:
-    workflows: ["CI Pipeline"] # Make sure this matches the 'name' in your CI file
+    workflows: ["CI Pipeline"]
     types: [completed]
     branches: [main]
   push:
     branches: [main]
-    paths-ignore:
-      - 'README.md'
-      - 'docs/**'
-      - '*.md'
-      - '.gitignore'
+    paths:
+      - 'app.py'
+      - 'config.py'
+      - 'templates/**'
+      - 'static/**'
+      - 'Dockerfile'
+      - 'requirements.txt'
+      - 'docker-compose.yml'
 
 jobs:
   deploy-staging:
-    # Only run if the triggering workflow was successful (if triggered by workflow_run)
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' }}
     runs-on: ubuntu-latest
     environment: staging
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Simulate Staging Deployment
         run: |
-          echo "Deploying to STAGING environment..."
-          echo "DB_HOST: staging-db.sakila.internal"
-          echo "APP_PORT: 8080"
-          echo "Docker Image: ${{ github.repository }}:staging"
+          echo "Deploying to STAGING..."
+          echo "DB_HOST=${{ vars.DB_HOST_STAGING }}"
+          echo "Running Docker Image: sakila-app:staging"
 
       - name: Generate Job Summary
-        # Requirement 55: Outputting to GITHUB_STEP_SUMMARY
         run: |
           echo "## 🚀 Staging Deployment Summary" >> $GITHUB_STEP_SUMMARY
-          echo "* **Status:** Success ✅" >> $GITHUB_STEP_SUMMARY
-          echo "* **Environment:** Staging" >> $GITHUB_STEP_SUMMARY
-          echo "* **Deployed at:** $(date)" >> $GITHUB_STEP_SUMMARY
-          echo "* **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Status:** Success" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 **Environment:** Staging" >> $GITHUB_STEP_SUMMARY
+          echo "📅 **Date:** $(date)" >> $GITHUB_STEP_SUMMARY
 
       - name: Notify Staging
-        # Requirement 57: Simulated Notification
         run: echo "Slack notification: Deployment to staging successful"
 
   deploy-production:
-    # Requirement 56: Needs staging to finish first
     needs: deploy-staging
     runs-on: ubuntu-latest
-    # Requirement 56: Use environment for protection rules
     environment: production
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Simulate Production Deployment
         run: |
-          echo "Deploying to PRODUCTION environment..."
-          echo "Message: Performing zero-downtime deployment to live servers."
+          echo "Deploying to PRODUCTION..."
+          echo "Status: Performing zero-downtime deployment."
 
       - name: Create Version Tag
-        id: versioning
-        # Requirement 56: Date-based versioning (e.g., v2026.04.27)
+        id: tagger
         run: echo "VERSION=v$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.versioning.outputs.VERSION }}
-          name: Release ${{ steps.versioning.outputs.VERSION }}
-          body: "Automated production release from main branch."
+          tag_name: ${{ steps.tagger.outputs.VERSION }}
+          name: Release ${{ steps.tagger.outputs.VERSION }}
+          body: "Automated production release."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
